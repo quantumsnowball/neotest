@@ -285,10 +285,10 @@ function neotest.Client:_update_positions(path, args)
         lib.files.find(path, {
           filter_dir = function(...)
             return (not adapter.filter_dir or adapter.filter_dir(...))
-              and (
+                and (
                 not config.projects[root_path].discovery.filter_dir
                 or config.projects[root_path].discovery.filter_dir(...)
-              )
+                )
           end,
         })
       )
@@ -343,8 +343,8 @@ function neotest.Client:_get_adapter(position_id, adapter_id)
 
     local root = self._state:positions(a_id)
     if
-      (not root or vim.startswith(position_id, root:data().path))
-      and (lib.files.is_dir(position_id) or adapter.is_test_file(position_id))
+        (not root or vim.startswith(position_id, root:data().path))
+        and (lib.files.is_dir(position_id) or adapter.is_test_file(position_id))
     then
       return a_id, adapter
     end
@@ -369,9 +369,9 @@ function neotest.Client:_start(args)
     return
   end
   self._adapters = {}
-  if not lib.subprocess.enabled() then
-    lib.subprocess.init()
-  end
+  -- if not lib.subprocess.enabled() then
+  --   lib.subprocess.init()
+  -- end
   local process_tracker = NeotestProcessTracker()
   self._runner = NeotestRunner(process_tracker)
   self._state = NeotestState(self._events)
@@ -501,12 +501,12 @@ end
 function neotest.Client:_update_adapters(dir)
   local adapters_with_root = lib.files.is_dir(dir)
       and self._adapter_group:adapters_with_root_dir(dir)
-    or {}
+      or {}
 
   local adapters_with_bufs =
-    self._adapter_group:adapters_matching_open_bufs(lib.func_util.map(function(i, entry)
-      return i, entry.root
-    end, adapters_with_root))
+      self._adapter_group:adapters_matching_open_bufs(lib.func_util.map(function(i, entry)
+        return i, entry.root
+      end, adapters_with_root))
 
   local found = {}
   for adapter_id, _ in pairs(self._adapters) do
